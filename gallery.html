@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ギャラリー | 世界遺産スタンプ帖</title>
+<meta name="description" content="世界遺産スタンプ帖のギャラリー。遺産にまつわる写真やスケッチを、スタンプカードのように並べていきます。">
+<meta name="robots" content="noai, noimageai">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;700&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Noto+Sans+JP:wght@300;400;500;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --moss:#33513e;
+    --moss-dark:#1c2b21;
+    --moss-light:#5c7a63;
+    --sky:#8fc0da;
+    --sky-deep:#4c88a3;
+    --gold:#d3a544;
+    --gold-deep:#a97c26;
+    --cream:#f4efdd;
+    --paper:#ece2c6;
+    --ink:#2a251f;
+    --ink-soft:#5a5346;
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--cream);
+    color:var(--ink);
+    font-family:'Noto Sans JP',sans-serif;
+    font-weight:400;
+    line-height:1.9;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:inherit;}
+  img{max-width:100%;display:block;}
+
+  a:focus-visible, button:focus-visible{
+    outline:2px solid var(--gold-deep);
+    outline-offset:3px;
+  }
+
+  .wrap{max-width:1080px;margin:0 auto;padding:0 24px;}
+
+  /* ---------- header ---------- */
+  header{
+    position:sticky;top:0;z-index:50;
+    background:rgba(244,239,221,0.92);
+    backdrop-filter:blur(6px);
+    border-bottom:1px solid rgba(42,37,31,0.12);
+  }
+  .nav-inner{
+    max-width:1080px;margin:0 auto;padding:16px 24px;
+    display:flex;align-items:center;justify-content:space-between;
+    gap:16px;flex-wrap:wrap;
+  }
+  .brand{
+    font-family:'Shippori Mincho',serif;
+    font-size:1.05rem;font-weight:700;
+    letter-spacing:.04em;
+    display:flex;align-items:baseline;gap:8px;
+    text-decoration:none;
+  }
+  .brand span.small{
+    font-family:'Cormorant Garamond',serif;
+    font-size:.72rem;letter-spacing:.18em;
+    color:var(--ink-soft);text-transform:uppercase;
+  }
+  nav ul{
+    list-style:none;display:flex;gap:28px;margin:0;padding:0;
+    font-size:.9rem;letter-spacing:.03em;
+  }
+  nav a{
+    text-decoration:none;position:relative;padding:4px 0;
+    color:var(--ink-soft);
+  }
+  nav a.current{color:var(--moss-dark);font-weight:700;}
+  nav a.current::after{
+    content:"";position:absolute;left:0;right:0;bottom:-4px;height:2px;
+    background:var(--gold-deep);
+  }
+  nav a:hover{color:var(--moss-dark);}
+
+  /* ---------- page header ---------- */
+  .page-head{
+    background:
+      radial-gradient(ellipse at 20% 30%, rgba(143,192,218,0.16), transparent 55%),
+      radial-gradient(ellipse at 80% 70%, rgba(211,165,68,0.14), transparent 55%),
+      var(--moss-dark);
+    color:var(--cream);
+    padding:70px 24px 56px;
+  }
+  .page-head .eyebrow{
+    font-family:'Cormorant Garamond',serif;font-style:italic;
+    letter-spacing:.14em;color:var(--sky);font-size:.9rem;
+    text-transform:uppercase;margin:0 0 12px;
+  }
+  .page-head h1{
+    font-family:'Shippori Mincho',serif;
+    font-size:clamp(1.9rem,4vw,2.5rem);
+    margin:0 0 16px;font-weight:700;
+  }
+  .page-head p{
+    color:rgba(244,239,221,0.8);max-width:58ch;margin:0;font-size:.95rem;
+  }
+
+  /* ---------- filter chips ---------- */
+  .chips{
+    display:flex;gap:10px;flex-wrap:wrap;
+    padding:34px 0 10px;
+  }
+  .chip{
+    font-family:'Noto Sans JP',sans-serif;font-size:.82rem;
+    padding:7px 18px;border-radius:20px;cursor:pointer;
+    border:1px solid rgba(42,37,31,0.25);
+    background:transparent;color:var(--ink-soft);
+    transition:background .15s ease,color .15s ease,border-color .15s ease;
+  }
+  .chip:hover{border-color:var(--moss);color:var(--moss);}
+  .chip.active{background:var(--moss);border-color:var(--moss);color:var(--cream);}
+  .chip.sky.active{background:var(--sky-deep);border-color:var(--sky-deep);}
+  .chip.gold.active{background:var(--gold-deep);border-color:var(--gold-deep);}
+
+  /* ---------- gallery grid ---------- */
+  .gallery{
+    display:grid;grid-template-columns:repeat(3,1fr);gap:26px;
+    padding:20px 0 90px;
+  }
+  .card{
+    background:var(--paper);
+    padding:12px 12px 16px;
+    border-radius:3px;
+    box-shadow:0 6px 16px rgba(28,43,33,0.1);
+    transition:transform .18s ease, box-shadow .18s ease;
+    position:relative;
+  }
+  .card:nth-child(odd){transform:rotate(-0.6deg);}
+  .card:nth-child(even){transform:rotate(0.5deg);}
+  .card:hover{transform:rotate(0deg) translateY(-4px);box-shadow:0 14px 26px rgba(28,43,33,0.18);}
+
+  .frame{
+    aspect-ratio:4/3;
+    border-radius:2px;
+    display:flex;align-items:center;justify-content:center;
+    position:relative;overflow:hidden;
+    background:linear-gradient(160deg,var(--moss-light),var(--moss));
+  }
+  .card.sky .frame{background:linear-gradient(160deg,var(--sky),var(--sky-deep));}
+  .card.gold .frame{background:linear-gradient(160deg,var(--gold),var(--gold-deep));}
+  .frame::before{
+    content:"";position:absolute;inset:0;
+    background-image:
+      linear-gradient(rgba(244,239,221,0.12) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(244,239,221,0.12) 1px, transparent 1px);
+    background-size:28px 28px;
+  }
+  .frame svg{position:relative;width:46%;height:auto;opacity:.85;}
+  .frame .stamp-mark{
+    position:absolute;right:10px;bottom:10px;
+    width:44px;height:44px;border-radius:50%;
+    border:2px dashed rgba(244,239,221,0.85);
+    color:var(--cream);
+    display:flex;align-items:center;justify-content:center;
+    font-family:'Shippori Mincho',serif;font-size:.58rem;font-weight:700;
+    text-align:center;line-height:1.2;
+    transform:rotate(-8deg);
+  }
+
+  .caption{padding:14px 6px 0;}
+  .caption .cat{
+    font-family:'Space Mono',monospace;font-size:.62rem;
+    letter-spacing:.1em;text-transform:uppercase;
+    color:var(--moss);margin:0 0 4px;
+  }
+  .card.sky .caption .cat{color:var(--sky-deep);}
+  .card.gold .caption .cat{color:var(--gold-deep);}
+  .caption h3{
+    font-family:'Shippori Mincho',serif;font-size:1.02rem;
+    margin:0 0 4px;color:var(--moss-dark);
+  }
+  .caption p{font-size:.8rem;color:var(--ink-soft);margin:0;line-height:1.7;}
+
+  /* ---------- footer ---------- */
+  footer{background:var(--paper);padding:60px 0 40px;}
+  .footer-notice{font-size:.78rem;color:var(--ink-soft);line-height:1.85;max-width:1080px;margin:0 auto;padding:0 24px;}
+  .footer-notice p{margin:0 0 12px;}
+  .footer-bottom{
+    display:flex;justify-content:space-between;align-items:center;
+    flex-wrap:wrap;gap:12px;padding:26px 24px 0;margin:26px auto 0;
+    border-top:1px solid rgba(42,37,31,0.15);
+    max-width:1080px;
+    font-size:.78rem;color:var(--ink-soft);
+  }
+  .footer-bottom a{text-decoration:underline;text-decoration-color:rgba(42,37,31,0.3);}
+  .footer-bottom a:hover{color:var(--moss-dark);}
+
+  @media (max-width:860px){
+    .gallery{grid-template-columns:repeat(2,1fr);}
+    nav ul{gap:18px;font-size:.84rem;}
+  }
+  @media (max-width:540px){
+    .gallery{grid-template-columns:1fr;}
+    .card:nth-child(odd), .card:nth-child(even){transform:none;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="nav-inner">
+    <a href="index.html" class="brand">世界遺産スタンプ帖<span class="small">Heritage Stamp Book</span></a>
+    <nav aria-label="サイト内ナビゲーション">
+      <ul>
+        <li><a href="index.html">TOP</a></li>
+        <li><a href="blog.html">日誌</a></li>
+        <li><a href="gallery.html" class="current">ギャラリー</a></li>
+        <li><a href="about.html">about</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<div class="page-head">
+  <div class="wrap">
+    <p class="eyebrow">Gallery</p>
+    <h1>ギャラリー</h1>
+    <p>遺産にまつわる写真やスケッチを、スタンプカードのように並べていく場所です。緑は文化遺産、空色は自然遺産、黄色は複合遺産のカードです。</p>
+  </div>
+</div>
+
+<div class="wrap">
+  <div class="chips" role="group" aria-label="カテゴリで絞り込む">
+    <button class="chip active" type="button">すべて</button>
+    <button class="chip" type="button">文化遺産</button>
+    <button class="chip sky" type="button">自然遺産</button>
+    <button class="chip gold" type="button">複合遺産</button>
+  </div>
+
+  <div class="gallery">
+
+    <!-- 姫路城 / 文化遺産 -->
+    <article class="card">
+      <div class="frame">
+        <svg viewBox="0 0 100 100" fill="none" stroke="#f4efdd" stroke-width="3" stroke-linejoin="round" aria-hidden="true">
+          <path d="M20 88h60M26 88V68h48v20M32 68V54h36v14M38 54V40h24v14M50 40V26M42 26l8-10 8 10z"/>
+        </svg>
+        <span class="stamp-mark">文化<br>遺産</span>
+      </div>
+      <div class="caption">
+        <p class="cat">Cultural / Japan</p>
+        <h3>姫路城</h3>
+        <p>白漆喰の天守群。写真またはスケッチを入れる予定。</p>
+      </div>
+    </article>
+
+    <!-- ガラパゴス / 自然遺産 -->
+    <article class="card sky">
+      <div class="frame">
+        <svg viewBox="0 0 100 100" fill="none" stroke="#f4efdd" stroke-width="3" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true">
+          <path d="M14 58c8-16 22-24 38-24s30 8 34 22c-8 6-18 8-30 8-14 0-30-2-42-6z"/>
+          <path d="M86 56c6 2 10 6 10 10M26 64l-6 12M40 68l-4 12M62 68l4 12M74 62l6 12"/>
+        </svg>
+        <span class="stamp-mark">自然<br>遺産</span>
+      </div>
+      <div class="caption">
+        <p class="cat">Natural / Ecuador</p>
+        <h3>ガラパゴス諸島</h3>
+        <p>ゾウガメやイグアナの資料写真を入れる予定。</p>
+      </div>
+    </article>
+
+    <!-- アンコール / 文化遺産 -->
+    <article class="card">
+      <div class="frame">
+        <svg viewBox="0 0 100 100" fill="none" stroke="#f4efdd" stroke-width="3" stroke-linejoin="round" aria-hidden="true">
+          <path d="M16 88h68M24 88V70h52v18M32 70V56h36v14M40 56V42h20v14M50 42V24M44 34h12M46 24h8"/>
+        </svg>
+        <span class="stamp-mark">文化<br>遺産</span>
+      </div>
+      <div class="caption">
+        <p class="cat">Cultural / Cambodia</p>
+        <h3>アンコールの遺跡群</h3>
+        <p>四面塔と木の根の写真を入れる予定。</p>
+      </div>
+    </article>
+
+    <!-- マチュ・ピチュ / 複合遺産 -->
+    <article class="card gold">
+      <div class="frame">
+        <svg viewBox="0 0 100 100" fill="none" stroke="#f4efdd" stroke-width="3" stroke-linejoin="round" aria-hidden="true">
+          <path d="M8 84l24-38 14 20 14-30 32 48z"/>
+          <path d="M34 84h12M50 84h12M30 76h40"/>
+        </svg>
+        <span class="stamp-mark">複合<br>遺産</span>
+      </div>
+      <div class="caption">
+        <p class="cat">Mixed / Peru</p>
+        <h3>マチュ・ピチュ</h3>
+        <p>段々畑と山稜の写真を入れる予定。</p>
+      </div>
+    </article>
+
+    <!-- 屋久島 / 自然遺産 -->
+    <article class="card sky">
+      <div class="frame">
+        <svg viewBox="0 0 100 100" fill="none" stroke="#f4efdd" stroke-width="3" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true">
+          <path d="M50 88V54M50 54L30 54l20-24 20 24zM50 40L34 40l16-20 16 20z"/>
+          <path d="M20 88h60"/>
+        </svg>
+        <span class="stamp-mark">自然<br>遺産</span>
+      </div>
+      <div class="caption">
+        <p class="cat">Natural / Japan</p>
+        <h3>屋久島</h3>
+        <p>苔むす森と縄文杉の写真を入れる予定。</p>
+      </div>
+    </article>
+
+    <!-- タージ・マハル / 文化遺産 -->
+    <article class="card">
+      <div class="frame">
+        <svg viewBox="0 0 100 100" fill="none" stroke="#f4efdd" stroke-width="3" stroke-linejoin="round" aria-hidden="true">
+          <path d="M20 88h60M28 88V58M72 88V58M26 58h4M70 58h4M36 88V62q14-26 28 0v26"/>
+          <path d="M50 36V26M46 26h8"/>
+        </svg>
+        <span class="stamp-mark">文化<br>遺産</span>
+      </div>
+      <div class="caption">
+        <p class="cat">Cultural / India</p>
+        <h3>タージ・マハル</h3>
+        <p>左右対称の庭園設計がわかる写真を入れる予定。</p>
+      </div>
+    </article>
+
+  </div>
+</div>
+
+<footer>
+  <div class="footer-notice">
+    <p><strong>このサイトについて</strong><br>
+    「世界遺産スタンプ帖」は個人が趣味で運営するファンサイトです。掲載内容は独自の調べ物や資料をもとにした個人的な記録であり、正確性を保証するものではありません。</p>
+    <p><strong>AI学習について</strong><br>
+    本サイトに掲載されているすべてのテキスト・画像・イラストについて、生成AIの学習データとしての利用を禁止します。無断でのAIモデルへの学習利用、スクレイピングによるデータ収集はご遠慮ください。</p>
+  </div>
+  <div class="footer-bottom">
+    <span>&copy; 2026 世界遺産スタンプ帖</span>
+    <a href="https://azaleacreativeroom888.github.io/">Azalea Creative Room に戻る</a>
+  </div>
+</footer>
+
+</body>
+</html>
